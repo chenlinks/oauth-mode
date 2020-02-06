@@ -1,4 +1,4 @@
-package com.oauth.mode.config;
+package com.oauth.mode.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,6 +41,8 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .antMatchers("/oauth/**")
+                .permitAll()
+                .antMatchers("/signin/wechat*")
                 .permitAll()
                 .and()
                 .requestMatchers()

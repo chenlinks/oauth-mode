@@ -1,4 +1,4 @@
-package com.oauth.mode.config;
+package com.oauth.mode.security.config;
 
 import com.oauth.mode.token.JwtTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private  UserDetailsServiceImpl userDetailsService;
+    private  SocialUserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private JwtTokenEnhancer jwtTokenEnhancer;
