@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class WeChatProperties extends SocialBasicProperties  {
 
-    private String scope = "snsapi_login";
+    private String scope = "snsapi_userinfo";
 
     private String  signUpUrl;
 
