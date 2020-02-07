@@ -1,9 +1,9 @@
 package com.oauth.mode.security.authentication.social.wechat.api.impl;
 
-import com.oauth.mode.security.authentication.social.wechat.WechatErrorHandler;
+import com.oauth.mode.security.authentication.social.wechat.handler.WechatErrorHandler;
 import com.oauth.mode.security.authentication.social.wechat.WechatMappingJackson2HttpMessageConverter;
-import com.oauth.mode.security.authentication.social.wechat.api.UserOperations;
-import com.oauth.mode.security.authentication.social.wechat.api.UserTemplate;
+import com.oauth.mode.security.authentication.social.wechat.template.UserOperations;
+import com.oauth.mode.security.authentication.social.wechat.template.UserTemplate;
 import com.oauth.mode.security.authentication.social.wechat.api.Wechat;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;

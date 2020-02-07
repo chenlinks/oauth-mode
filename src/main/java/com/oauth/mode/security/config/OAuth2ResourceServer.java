@@ -30,7 +30,6 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 
     /**
      * 使用此配置安全资源的访问规则。默认情况下，“ / oauth / **” 中的所有资源不受保护
-     * （例如，没有给出有关范围的特定规则）。默认情况下，您还会获得一个 {@link OAuth2WebSecurityExpressionHandler}。
      * @param http
      * @throws Exception
      */
@@ -40,7 +39,7 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
-                .antMatchers("/oauth/**")
+                .antMatchers("/oauth/**","/auth/**")
                 .permitAll()
                 .and()
                 .requestMatchers()

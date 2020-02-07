@@ -1,25 +1,25 @@
-package com.oauth.mode.security.authentication.social.wechat.config;
+package com.oauth.mode.security.config;
 
 import com.oauth.mode.properties.SecurityProperties;
-import com.oauth.mode.properties.WeChatProperties;
-import com.oauth.mode.security.authentication.social.wechat.connect.WechatConnectionFactory;
-import com.oauth.mode.security.config.CommonSpringSocialConfigurer;
+import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
-import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
+import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SpringSocialConfigurer;
+
+import javax.sql.DataSource;
 
 /**
  * SocialConfiguration实际上是Spring Social的配置入口类，
@@ -32,7 +32,8 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @Configuration
 @EnableSocial
 @Slf4j
-public class WechatSocialConfig extends SocialConfigurerAdapter {
+@Order(1)
+public class SocialConfig extends SocialConfigurerAdapter {
 
 
     @Autowired
@@ -41,13 +42,12 @@ public class WechatSocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private ConnectionSignUp connectionSignUp;
 
-    @Override
-    public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
-        WeChatProperties properties = securityProperties.getSocial().getWeChat();
-        log.info("配置文件信息：{}",properties);
-        WechatConnectionFactory connectionFactory = new WechatConnectionFactory(properties.getAppId(), securityProperties.getSocial().getWeChat().getProviderId(),properties.getAppSecret());
-        connectionFactoryConfigurer.addConnectionFactory(connectionFactory);
-    }
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
 
     @Override
     public UserIdSource getUserIdSource() {
@@ -56,13 +56,21 @@ public class WechatSocialConfig extends SocialConfigurerAdapter {
 
     @Bean
     public UsersConnectionRepository usersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        //声明一个基于内存的用户连接管理器
-        //TODO 基于内存的实现方案缺陷较 多，比如，Connections在服务重启之后便会丢失，或者当长久运行时会占用过多内存空间等
-        //建议采用JDBC 方式
-        InMemoryUsersConnectionRepository repository = new InMemoryUsersConnectionRepository(connectionFactoryLocator);
-        //使用隐式模式
-        if(this.connectionSignUp != null){
-            repository.setConnectionSignUp(this.connectionSignUp);
+//        //声明一个基于内存的用户连接管理器
+//        //TODO 基于内存的实现方案缺陷较 多，比如，Connections在服务重启之后便会丢失，或者当长久运行时会占用过多内存空间等
+//        //建议采用JDBC 方式
+//        InMemoryUsersConnectionRepository repository = new InMemoryUsersConnectionRepository(connectionFactoryLocator);
+//        //使用隐式模式
+//        if(this.connectionSignUp != null){
+//            repository.setConnectionSignUp(this.connectionSignUp);
+//        }
+//        return repository;
+
+        JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,
+                connectionFactoryLocator, Encryptors.noOpText());
+        //如果不为空
+        if (connectionSignUp != null) {
+            repository.setConnectionSignUp(connectionSignUp);
         }
         return repository;
 
@@ -71,7 +79,15 @@ public class WechatSocialConfig extends SocialConfigurerAdapter {
     //生命自定义的 SpringSocialConfigurer
     @Bean
     public SpringSocialConfigurer springSocialConfigurer(){
-        return new CommonSpringSocialConfigurer(securityProperties.getSocial().getWeChat().getFilterProcessesUrl(),securityProperties.getSocial().getWeChat().getSignUpUrl());
+
+        String filterProcessesUrl = securityProperties.getSocial().getWeChat().getFilterProcessesUrl();
+        String signUpUrl = securityProperties.getSocial().getWeChat().getSignUpUrl();
+        log.info("配置自定义SpringSocialConfigurer,filterProcessesUrl:{},signUpUrl:{}",filterProcessesUrl,signUpUrl);
+
+        return new CommonSpringSocialConfigurer(
+                filterProcessesUrl,
+                signUpUrl,
+                socialAuthenticationFilterPostProcessor);
     }
 
     //配置 spring  social 提供的 oauth 登录工具

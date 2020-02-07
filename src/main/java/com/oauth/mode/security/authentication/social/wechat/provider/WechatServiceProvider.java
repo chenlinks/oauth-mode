@@ -1,8 +1,10 @@
-package com.oauth.mode.security.authentication.social.wechat.connect;
+package com.oauth.mode.security.authentication.social.wechat.provider;
 
 import com.oauth.mode.constants.UrlConstants;
 import com.oauth.mode.security.authentication.social.wechat.api.Wechat;
 import com.oauth.mode.security.authentication.social.wechat.api.impl.WechatImpl;
+import com.oauth.mode.security.authentication.social.wechat.template.WechatOAuth2Template;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
 import org.springframework.util.Assert;
@@ -19,10 +21,12 @@ import org.springframework.util.Assert;
  * @date 2020/2/6 15:41
  * @since V1.0.0
  */
+@Slf4j
 public class WechatServiceProvider <T extends Wechat> extends AbstractOAuth2ServiceProvider<T> {
 
     public WechatServiceProvider(String appId, String appSecret) {
         this(appId, appSecret, UrlConstants.WECHAT_QRCONNECT_API_URL);
+        log.info("WechatServiceProvider  appId :{}, appSecret :{}",appId,appSecret);
     }
 
     public WechatServiceProvider(String appId, String appSecret, String authorizeUrl) {

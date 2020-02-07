@@ -1,6 +1,7 @@
 package com.oauth.mode.security.config;
 
 import cn.hutool.core.util.StrUtil;
+import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -25,11 +26,15 @@ public class CommonSpringSocialConfigurer extends SpringSocialConfigurer {
 
     private String signUpUrl;
 
-    public CommonSpringSocialConfigurer(String filterProcessesUrl,String signUpUrl){
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
+    public CommonSpringSocialConfigurer(String filterProcessesUrl,String signUpUrl, SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor){
         this.filterProcessesUrl = filterProcessesUrl;
         this.signUpUrl= signUpUrl;
+        this.socialAuthenticationFilterPostProcessor = socialAuthenticationFilterPostProcessor;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected <T> T postProcess(T object) {
         SocialAuthenticationFilter socialAuthenticationFilter = (SocialAuthenticationFilter)super.postProcess(object);
@@ -39,6 +44,9 @@ public class CommonSpringSocialConfigurer extends SpringSocialConfigurer {
         }
         if(StrUtil.isNotBlank(this.signUpUrl)){
             socialAuthenticationFilter.setSignupUrl(this.signUpUrl);
+        }
+        if(null != socialAuthenticationFilterPostProcessor){
+            socialAuthenticationFilterPostProcessor.process(socialAuthenticationFilter);
         }
         return (T) socialAuthenticationFilter;
     }

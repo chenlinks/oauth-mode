@@ -1,4 +1,4 @@
-package com.oauth.mode.security.config;
+package com.oauth.mode.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.security.access.AccessDeniedException;

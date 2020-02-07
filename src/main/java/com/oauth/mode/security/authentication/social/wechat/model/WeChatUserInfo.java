@@ -1,4 +1,4 @@
-package com.oauth.mode.security.authentication.social.wechat.api;
+package com.oauth.mode.security.authentication.social.wechat.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

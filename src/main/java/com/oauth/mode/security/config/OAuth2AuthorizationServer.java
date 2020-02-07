@@ -1,5 +1,6 @@
 package com.oauth.mode.security.config;
 
+import com.oauth.mode.security.detail.SocialUserDetailsServiceImpl;
 import com.oauth.mode.token.JwtTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +40,7 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private  SocialUserDetailsServiceImpl userDetailsService;
+    private SocialUserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private JwtTokenEnhancer jwtTokenEnhancer;
@@ -63,10 +64,8 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()");
-        security.checkTokenAccess("permitAll()");
         security.checkTokenAccess("isAuthenticated()");
         security.allowFormAuthenticationForClients();
-        security.passwordEncoder(passwordEncoder);
     }
 
     /**
@@ -87,7 +86,7 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
                 .secret(new BCryptPasswordEncoder().encode("123123"))
                 .redirectUris("http://localhost:9001/callback")
                 //授权模式 refresh_token
-                .authorizedGrantTypes("authorization_code","refresh_token")
+                .authorizedGrantTypes("refresh_token", "authorization_code", "password")
                 .scopes("read_userinfo", "read_contacts");
 
                 //密码模式
@@ -95,7 +94,7 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
                 .withClient("client-password")
                 .secret(new BCryptPasswordEncoder().encode("123123"))
                 //授权模式 refresh_token
-                .authorizedGrantTypes("password","refresh_token")
+                .authorizedGrantTypes("refresh_token", "authorization_code", "password")
                 .scopes("admin", "visitor");
 
                 //简易模式
@@ -104,7 +103,7 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
                 .secret(new BCryptPasswordEncoder().encode("123123"))
                 .redirectUris("http://localhost:9001/implicit/getToken")
                 //授权模式 refresh_token
-                .authorizedGrantTypes("implicit")
+                .authorizedGrantTypes("implicit","refresh_token", "authorization_code", "password")
                 .scopes("read_userinfo", "read_contacts");
 
                 //客户端凭证模式
@@ -112,7 +111,7 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
                 .withClient("client-client")
                 .secret(new BCryptPasswordEncoder().encode("123123"))
                 //授权模式 refresh_token
-                .authorizedGrantTypes("client_credentials")
+                .authorizedGrantTypes("client_credentials","refresh_token", "authorization_code", "password")
                 .scopes("read_userinfo", "read_contacts");
     }
 

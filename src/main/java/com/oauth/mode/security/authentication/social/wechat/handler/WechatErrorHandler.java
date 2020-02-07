@@ -1,4 +1,4 @@
-package com.oauth.mode.security.authentication.social.wechat;
+package com.oauth.mode.security.authentication.social.wechat.handler;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;

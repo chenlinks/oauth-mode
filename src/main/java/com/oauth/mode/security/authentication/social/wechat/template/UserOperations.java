@@ -1,6 +1,7 @@
-package com.oauth.mode.security.authentication.social.wechat.api;
+package com.oauth.mode.security.authentication.social.wechat.template;
 
 import com.oauth.mode.security.authentication.social.wechat.WechatLangEnum;
+import com.oauth.mode.security.authentication.social.wechat.model.WeChatUserInfo;
 
 /**
  * @author chenling

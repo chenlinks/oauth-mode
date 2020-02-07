@@ -1,4 +1,4 @@
-package com.oauth.mode.security.authentication.social.wechat.connect;
+package com.oauth.mode.security.authentication.social.wechat;
 
 import lombok.Getter;
 import org.springframework.social.oauth2.AccessGrant;
@@ -21,6 +21,15 @@ public class WechatAccessGrant  extends AccessGrant {
 
     private String unionid;
 
+    /**
+     *
+     * @param accessToken token
+     * @param scope scope
+     * @param refreshToken refreshToken
+     * @param expiresIn
+     * @param openId
+     * @param unionId
+     */
     public WechatAccessGrant(String accessToken, String scope, String refreshToken, Long expiresIn, String openId,
                              String unionId) {
         super(accessToken, scope, refreshToken, expiresIn);

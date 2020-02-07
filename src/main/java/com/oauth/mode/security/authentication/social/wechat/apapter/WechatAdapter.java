@@ -1,7 +1,7 @@
-package com.oauth.mode.security.authentication.social.wechat.connect;
+package com.oauth.mode.security.authentication.social.wechat.apapter;
 
-import com.oauth.mode.security.authentication.social.wechat.api.UserOperations;
-import com.oauth.mode.security.authentication.social.wechat.api.WeChatUserInfo;
+import com.oauth.mode.security.authentication.social.wechat.template.UserOperations;
+import com.oauth.mode.security.authentication.social.wechat.model.WeChatUserInfo;
 import com.oauth.mode.security.authentication.social.wechat.api.Wechat;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;

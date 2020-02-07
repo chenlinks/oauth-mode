@@ -1,6 +1,9 @@
-package com.oauth.mode.security.authentication.social.wechat.connect;
+package com.oauth.mode.security.authentication.social.wechat.factory;
 
 import com.oauth.mode.security.authentication.social.wechat.api.Wechat;
+import com.oauth.mode.security.authentication.social.wechat.WechatAccessGrant;
+import com.oauth.mode.security.authentication.social.wechat.apapter.WechatAdapter;
+import com.oauth.mode.security.authentication.social.wechat.provider.WechatServiceProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.Connection;

@@ -1,5 +1,6 @@
 package com.oauth.mode.security.authentication.social.wechat.api;
 
+import com.oauth.mode.security.authentication.social.wechat.template.UserOperations;
 import org.springframework.social.ApiBinding;
 import org.springframework.web.client.RestOperations;
 

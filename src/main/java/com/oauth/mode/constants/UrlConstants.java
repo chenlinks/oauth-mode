@@ -42,4 +42,21 @@ public class UrlConstants {
 
     //**************************微信相关URL end ***************************************//
 
+
+
+
+    //**************************应用相关URL start ***************************************//
+
+    public static final   String  OAUTH_LOGIN = "/oauthLogin";
+
+    public static final   String OAUTH_GRANT = "/oauthGrant";
+
+
+    public static final String LOGIN_PAGE = "/authentication/require";
+
+    public static final String LOGIN_PROCESSING_URL = "/authentication/form";
+
+    public static final String AFTER_LOGING_PAGE = "/oauthLogin";
+
+    //**************************应用相关URL end ***************************************//
 }
