@@ -42,8 +42,6 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
                 .authenticated()
                 .antMatchers("/oauth/**")
                 .permitAll()
-                .antMatchers("/oauth/wechat")
-                .permitAll()
                 .and()
                 .requestMatchers()
                 .antMatchers("/api/**");
