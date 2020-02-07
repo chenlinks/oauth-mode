@@ -1,5 +1,7 @@
 package com.oauth.mode.security.config;
 
+import cn.hutool.core.util.StrUtil;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -32,8 +34,25 @@ public class CommonSpringSocialConfigurer extends SpringSocialConfigurer {
     protected <T> T postProcess(T object) {
         SocialAuthenticationFilter socialAuthenticationFilter = (SocialAuthenticationFilter)super.postProcess(object);
         //为social 设置自定义URL
-        socialAuthenticationFilter.setFilterProcessesUrl(this.filterProcessesUrl);
-        socialAuthenticationFilter.setSignupUrl(this.signUpUrl);
+        if(StrUtil.isNotBlank(this.filterProcessesUrl)){
+            socialAuthenticationFilter.setFilterProcessesUrl(this.filterProcessesUrl);
+        }
+        if(StrUtil.isNotBlank(this.signUpUrl)){
+            socialAuthenticationFilter.setSignupUrl(this.signUpUrl);
+        }
         return (T) socialAuthenticationFilter;
+    }
+
+
+    /**
+     * 可以配置一些关于 social 的一些自定义功能
+     * 核心 是配置SocialAuthenticationFilter
+     * 参考父类的配置
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
     }
 }

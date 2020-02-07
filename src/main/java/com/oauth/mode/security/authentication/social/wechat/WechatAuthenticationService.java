@@ -1,5 +1,11 @@
 package com.oauth.mode.security.authentication.social.wechat;
 
+import com.oauth.mode.properties.WeChatProperties;
+import com.oauth.mode.security.authentication.social.wechat.api.Wechat;
+import com.oauth.mode.security.authentication.social.wechat.connect.WechatConnectionFactory;
+import com.oauth.mode.utils.SpringContextUtil;
+import org.springframework.social.security.provider.OAuth2AuthenticationService;
+
 /**
  *
  * OAuth2AuthenticationService 是 SocialAuthenticationService 接口的 OAuth 实现，
@@ -12,10 +18,10 @@ package com.oauth.mode.security.authentication.social.wechat;
  * @date 2020/2/6 15:43
  * @since V1.0.0
  */
-//public class WechatAuthenticationService extends OAuth2AuthenticationService<Wechat> {
-//
-//    public WechatAuthenticationService(final String apiKey, final String appSecret) {
-//        super(new WechatConnectionFactory(apiKey, appSecret));
-//    }
-//
-//}
+public class WechatAuthenticationService extends OAuth2AuthenticationService<Wechat> {
+
+    public WechatAuthenticationService(final String apiKey, final String appSecret) {
+        super(new WechatConnectionFactory(apiKey, appSecret,SpringContextUtil.getBean(WeChatProperties.class).getProviderId()));
+    }
+
+}

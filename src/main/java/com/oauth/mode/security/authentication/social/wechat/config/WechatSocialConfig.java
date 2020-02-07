@@ -4,6 +4,7 @@ import com.oauth.mode.properties.SecurityProperties;
 import com.oauth.mode.properties.WeChatProperties;
 import com.oauth.mode.security.authentication.social.wechat.connect.WechatConnectionFactory;
 import com.oauth.mode.security.config.CommonSpringSocialConfigurer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
  */
 @Configuration
 @EnableSocial
+@Slf4j
 public class WechatSocialConfig extends SocialConfigurerAdapter {
 
 
@@ -42,6 +44,7 @@ public class WechatSocialConfig extends SocialConfigurerAdapter {
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
         WeChatProperties properties = securityProperties.getSocial().getWeChat();
+        log.info("配置文件信息：{}",properties);
         WechatConnectionFactory connectionFactory = new WechatConnectionFactory(properties.getAppId(), securityProperties.getSocial().getWeChat().getProviderId(),properties.getAppSecret());
         connectionFactoryConfigurer.addConnectionFactory(connectionFactory);
     }
