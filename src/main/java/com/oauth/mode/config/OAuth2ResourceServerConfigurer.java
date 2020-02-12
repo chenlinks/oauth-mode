@@ -54,8 +54,8 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
                 .and()
                 .requestMatchers()
                 .antMatchers("/api/**")
-                .and().csrf().disable()
-                .apply(springSocialConfigurer);
+                .and().csrf().disable();
+//                .apply(springSocialConfigurer);
 
     }
 }
