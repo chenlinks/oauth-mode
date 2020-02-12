@@ -1,13 +1,10 @@
 package com.oauth.mode.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * 资源服务器
@@ -18,14 +15,6 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @Configuration
 @EnableResourceServer
 public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
-
-
-    @Autowired
-    private SpringSocialConfigurer springSocialConfigurer;
-
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-
 
     /**
      * 添加特定于资源服务器的属性（例如资源ID）。默认值适用于许多应用程序，但是您可能至少要更改资源ID。
@@ -55,7 +44,6 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
                 .requestMatchers()
                 .antMatchers("/api/**")
                 .and().csrf().disable();
-//                .apply(springSocialConfigurer);
 
     }
 }

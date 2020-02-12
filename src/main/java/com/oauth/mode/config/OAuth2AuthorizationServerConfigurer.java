@@ -1,6 +1,6 @@
 package com.oauth.mode.config;
 
-import com.oauth.mode.security.detail.SocialUserDetailsServiceImpl;
+import com.oauth.mode.detail.UserDetailsServiceImpl;
 import com.oauth.mode.token.JwtTokenEnhancer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class OAuth2AuthorizationServerConfigurer extends AuthorizationServerConf
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Autowired
-    private SocialUserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
 
     /**
