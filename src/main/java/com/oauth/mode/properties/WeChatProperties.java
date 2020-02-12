@@ -15,7 +15,7 @@ public class WeChatProperties extends SocialBasicProperties  {
 
     private String scope = "snsapi_login";
 
-    private String  signUpUrl;
+
 
 
 }

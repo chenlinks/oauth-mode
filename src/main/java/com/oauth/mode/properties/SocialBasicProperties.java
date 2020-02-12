@@ -37,5 +37,7 @@ public abstract class SocialBasicProperties {
      */
     private String filterProcessesUrl;
 
+    private String  signUpUrl;
+
 
 }

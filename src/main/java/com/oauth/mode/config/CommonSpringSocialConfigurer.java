@@ -1,10 +1,20 @@
-package com.oauth.mode.security.config;
+package com.oauth.mode.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialAuthenticationFilter;
+import org.springframework.social.security.SocialAuthenticationServiceLocator;
 import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.stereotype.Component;
 
 /**
  * 配置Spring Social的公共行为
@@ -20,19 +30,33 @@ import org.springframework.social.security.SpringSocialConfigurer;
  * @date 2020/2/6 17:53
  * @since V1.0.0
  */
+@Component
+@Slf4j
 public class CommonSpringSocialConfigurer extends SpringSocialConfigurer {
 
+
+    @Value("${demo.security.social.filterProcessesUrl}")
     private String filterProcessesUrl;
 
+    @Value("${demo.security.social.signUpUrl}")
     private String signUpUrl;
 
+    @Autowired
     private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
 
-    public CommonSpringSocialConfigurer(String filterProcessesUrl,String signUpUrl, SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor){
-        this.filterProcessesUrl = filterProcessesUrl;
-        this.signUpUrl= signUpUrl;
-        this.socialAuthenticationFilterPostProcessor = socialAuthenticationFilterPostProcessor;
-    }
+    @Autowired
+    private AuthenticationSuccessHandler successHandler;
+//    @Autowired
+//    private AuthenticationFailureHandler failureHandler;
+//    @Autowired
+//    private SocialAuthenticationProvider provider;
+    @Autowired
+    private UsersConnectionRepository usersConnectionRepository;
+
+    @Autowired
+    private SocialAuthenticationServiceLocator authServiceLocator;
+
+
 
     @SuppressWarnings("unchecked")
     @Override
@@ -61,6 +85,23 @@ public class CommonSpringSocialConfigurer extends SpringSocialConfigurer {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        //社交账号登陆认证过滤器
+        SocialAuthenticationFilter filter = new SocialAuthenticationFilter(
+                http.getSharedObject(AuthenticationManager.class),
+                new AuthenticationNameUserIdSource(),
+                usersConnectionRepository,
+                authServiceLocator);
+
+        RememberMeServices rememberMe = http.getSharedObject(RememberMeServices.class);
+        if (rememberMe != null) {
+            filter.setRememberMeServices(rememberMe);
+        }
+
+//        filter.setAuthenticationDetailsSource(authenticationDetailsSource);
+        filter.setAuthenticationSuccessHandler(successHandler);
+//        filter.setAuthenticationFailureHandler(failureHandler);
+
+//        http.authenticationProvider(provider)
+//                .addFilterBefore(postProcess(filter), AbstractPreAuthenticatedProcessingFilter.class);
     }
 }

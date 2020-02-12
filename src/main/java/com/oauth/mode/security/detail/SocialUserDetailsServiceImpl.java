@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
  * @date 2020/2/7 0:23
  * @since V1.0.0
  */
-@Service
+@Component
 @Slf4j
 public class SocialUserDetailsServiceImpl implements SocialUserDetailsService, UserDetailsService {
 

@@ -19,21 +19,24 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class JwtTokenStoreConfig {
 
-        @Value("${security.oauth2.resource.jwt.key-value}")
-        private String jwtKey;
+    @Value("${security.oauth2.resource.jwt.key-value}")
+    private String jwtKey;
 
-        @Bean
-        @Primary
-        public TokenStore  tokenStore(){
-            return new JwtTokenStore(jwtAccessTokenConverter());
-        }
+    @Bean
+    @Primary
+    public TokenStore tokenStore(){
+        log.info("*****************************TokenStore**************************");
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
 
-        @Bean
-        public JwtAccessTokenConverter jwtAccessTokenConverter() {
-            JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-            jwtAccessTokenConverter.setSigningKey(jwtKey);
-            return jwtAccessTokenConverter;
-        }
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey(jwtKey);
+        return jwtAccessTokenConverter;
+    }
+
+
 
 
 }

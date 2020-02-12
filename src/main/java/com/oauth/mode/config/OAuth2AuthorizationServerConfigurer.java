@@ -1,7 +1,8 @@
-package com.oauth.mode.security.config;
+package com.oauth.mode.config;
 
 import com.oauth.mode.security.detail.SocialUserDetailsServiceImpl;
 import com.oauth.mode.token.JwtTokenEnhancer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,18 +30,17 @@ import java.util.List;
  * @date 2020/2/5 19:37
  * @since V1.0.0
  */
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAdapter {
+public class OAuth2AuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private SocialUserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private JwtTokenEnhancer jwtTokenEnhancer;
@@ -50,6 +50,10 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
 
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+    @Autowired
+    private SocialUserDetailsServiceImpl userDetailsService;
+
 
     /**
      *
@@ -134,13 +138,19 @@ public class OAuth2AuthorizationServer  extends AuthorizationServerConfigurerAda
         delegates.add(jwtAccessTokenConverter);
         tokenEnhancerChain.setTokenEnhancers(delegates);
 
+        log.info("--------------授权服务器0：{}--------------",passwordEncoder);
+        log.info("--------------授权服务器1：{}--------------",tokenStore);
+        log.info("--------------授权服务器2：{}--------------",jwtTokenEnhancer);
+        log.info("--------------授权服务器3：{}--------------",jwtAccessTokenConverter);
+        log.info("--------------授权服务器4：{}--------------",userDetailsService);
+        log.info("--------------授权服务器5：{}--------------",authenticationManager);
         //token 存储器可以改为redis
-        endpoints.tokenStore(tokenStore);
-        endpoints.tokenEnhancer(tokenEnhancerChain);
-        endpoints.userDetailsService(userDetailsService);
-        endpoints.authenticationManager(authenticationManager);
-        endpoints.accessTokenConverter(jwtAccessTokenConverter);
-        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+        endpoints.userDetailsService(userDetailsService)
+                .tokenStore(tokenStore)
+                .tokenEnhancer(tokenEnhancerChain)
+                .accessTokenConverter(jwtAccessTokenConverter)
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                .authenticationManager(authenticationManager);
     }
 
 

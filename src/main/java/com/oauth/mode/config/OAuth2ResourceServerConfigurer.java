@@ -1,10 +1,13 @@
-package com.oauth.mode.security.config;
+package com.oauth.mode.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * 资源服务器
@@ -14,7 +17,14 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  */
 @Configuration
 @EnableResourceServer
-public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
+public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
+
+
+    @Autowired
+    private SpringSocialConfigurer springSocialConfigurer;
+
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
 
     /**
@@ -43,7 +53,9 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
                 .permitAll()
                 .and()
                 .requestMatchers()
-                .antMatchers("/api/**");
+                .antMatchers("/api/**")
+                .and().csrf().disable()
+                .apply(springSocialConfigurer);
 
     }
 }
