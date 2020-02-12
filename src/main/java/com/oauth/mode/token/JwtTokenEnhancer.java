@@ -27,16 +27,18 @@ public class JwtTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
         Authentication userAuthentication = authentication.getUserAuthentication();
-        String name = userAuthentication.getName();
-        if(StrUtil.isNotBlank(name)){
-            final Map<String, Object> additionalInformation = new HashMap<>();
-            Map<String, Object> userInfo = new HashMap<>();
-            userInfo.put("name",name);
-            userInfo.put("password","chenling");
-            userInfo.put("sex","男");
-            userInfo.put("age","27");
-            additionalInformation.put("userInfo",userInfo);
-            ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInformation);
+        if(userAuthentication != null){
+            String name = userAuthentication.getName();
+            if(StrUtil.isNotBlank(name)){
+                final Map<String, Object> additionalInformation = new HashMap<>();
+                Map<String, Object> userInfo = new HashMap<>();
+                userInfo.put("name",name);
+                userInfo.put("password","chenling");
+                userInfo.put("sex","男");
+                userInfo.put("age","27");
+                additionalInformation.put("userInfo",userInfo);
+                ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInformation);
+            }
         }
 
         return accessToken;
