@@ -138,12 +138,6 @@ public class OAuth2AuthorizationServerConfigurer extends AuthorizationServerConf
         delegates.add(jwtAccessTokenConverter);
         tokenEnhancerChain.setTokenEnhancers(delegates);
 
-        log.info("--------------授权服务器0：{}--------------",passwordEncoder);
-        log.info("--------------授权服务器1：{}--------------",tokenStore);
-        log.info("--------------授权服务器2：{}--------------",jwtTokenEnhancer);
-        log.info("--------------授权服务器3：{}--------------",jwtAccessTokenConverter);
-        log.info("--------------授权服务器4：{}--------------",userDetailsService);
-        log.info("--------------授权服务器5：{}--------------",authenticationManager);
         //token 存储器可以改为redis
         endpoints.userDetailsService(userDetailsService)
                 .tokenStore(tokenStore)
