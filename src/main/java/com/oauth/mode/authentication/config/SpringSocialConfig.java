@@ -1,4 +1,4 @@
-package com.oauth.mode.config;
+package com.oauth.mode.authentication.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class CommonSpringSocialConfigurer extends SpringSocialConfigurer {
+public class SpringSocialConfig extends SpringSocialConfigurer {
 
 
     @Value("${demo.security.social.filterProcessesUrl}")

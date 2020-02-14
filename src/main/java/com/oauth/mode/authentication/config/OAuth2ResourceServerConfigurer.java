@@ -1,5 +1,6 @@
-package com.oauth.mode.config;
+package com.oauth.mode.authentication.config;
 
+import com.oauth.mode.authentication.username.config.UsernameSecurityConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,9 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
+    @Autowired
+    private UsernameSecurityConfigurer usernameSecurityConfigurer;
+
 
     /**
      * 添加特定于资源服务器的属性（例如资源ID）。默认值适用于许多应用程序，但是您可能至少要更改资源ID。
@@ -45,17 +49,19 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-            http
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .antMatchers("/oauth/**","/auth/**")
-                .permitAll()
-                .and()
-                .requestMatchers()
-                .antMatchers("/api/**")
+        http
+                .apply(usernameSecurityConfigurer)
                 .and().csrf().disable();
-//                .apply(springSocialConfigurer);
+        //                .apply(springSocialConfigurer);
 
+
+        http
+                .formLogin()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/oauth/**","/auth/**","/login")
+                .permitAll();
+
+        http.authorizeRequests().anyRequest().authenticated();
     }
 }

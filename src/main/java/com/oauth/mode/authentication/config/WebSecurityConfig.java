@@ -1,4 +1,4 @@
-package com.oauth.mode.config;
+package com.oauth.mode.authentication.config;
 
 import com.oauth.mode.properties.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,10 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @since V1.0.0
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableConfigurationProperties(SecurityProperties.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,7 +32,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-
 
 }

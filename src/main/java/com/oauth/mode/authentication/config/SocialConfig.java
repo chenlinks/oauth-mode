@@ -1,4 +1,4 @@
-package com.oauth.mode.config;
+package com.oauth.mode.authentication.config;
 
 import com.oauth.mode.properties.SecurityProperties;
 import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
@@ -11,7 +11,6 @@ import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -36,8 +35,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Autowired
-    private ConnectionSignUp connectionSignUp;
+//    @Autoired
+//    private wConnectionSignUp connectionSignUp;
 
     @Autowired
     private DataSource dataSource;
@@ -66,26 +65,13 @@ public class SocialConfig extends SocialConfigurerAdapter {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,
                 connectionFactoryLocator, Encryptors.noOpText());
         //如果不为空
-        if (connectionSignUp != null) {
-            repository.setConnectionSignUp(connectionSignUp);
-        }
+//        if (connectionSignUp != null) {
+//            repository.setConnectionSignUp(connectionSignUp);
+//        }
         return repository;
 
     }
 
-    //生命自定义的 SpringSocialConfigurer
-//    @Bean
-//    public SpringSocialConfigurer springSocialConfigurer(){
-//
-//        String filterProcessesUrl = securityProperties.getSocial().getWeChat().getFilterProcessesUrl();
-//        String signUpUrl = securityProperties.getSocial().getWeChat().getSignUpUrl();
-//        log.info("配置自定义SpringSocialConfigurer,filterProcessesUrl:{},signUpUrl:{}",filterProcessesUrl,signUpUrl);
-//
-//        return new CommonSpringSocialConfigurer(
-//                filterProcessesUrl,
-//                signUpUrl,
-//                socialAuthenticationFilterPostProcessor);
-//    }
 
     //配置 spring  social 提供的 oauth 登录工具
     //ProviderSignInUtils是一个用于处理OAuth登录逻辑的工具，主要通过doPostSignUp执行Connection 持久化逻辑

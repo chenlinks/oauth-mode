@@ -1,6 +1,5 @@
-package com.oauth.mode.config;
+package com.oauth.mode.authentication.config;
 
-import com.oauth.mode.security.detail.SocialUserDetailsServiceImpl;
 import com.oauth.mode.token.JwtTokenEnhancer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +50,8 @@ public class OAuth2AuthorizationServerConfigurer extends AuthorizationServerConf
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
-    @Autowired
-    private SocialUserDetailsServiceImpl userDetailsService;
+//    @Autowired
+//    private SocialUserDetailsServiceImpl userDetailsService;
 
 
     /**
@@ -142,10 +141,10 @@ public class OAuth2AuthorizationServerConfigurer extends AuthorizationServerConf
         log.info("--------------授权服务器1：{}--------------",tokenStore);
         log.info("--------------授权服务器2：{}--------------",jwtTokenEnhancer);
         log.info("--------------授权服务器3：{}--------------",jwtAccessTokenConverter);
-        log.info("--------------授权服务器4：{}--------------",userDetailsService);
+//        log.info("--------------授权服务器4：{}--------------",userDetailsService);
         log.info("--------------授权服务器5：{}--------------",authenticationManager);
         //token 存储器可以改为redis
-        endpoints.userDetailsService(userDetailsService)
+        endpoints//.userDetailsService(userDetailsService)
                 .tokenStore(tokenStore)
                 .tokenEnhancer(tokenEnhancerChain)
                 .accessTokenConverter(jwtAccessTokenConverter)

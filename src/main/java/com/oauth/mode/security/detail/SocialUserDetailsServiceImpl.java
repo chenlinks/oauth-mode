@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Component
 @Slf4j
-public class SocialUserDetailsServiceImpl implements SocialUserDetailsService, UserDetailsService {
+public class SocialUserDetailsServiceImpl implements SocialUserDetailsService, UserDetailsService { //
 
     @Autowired
     private PasswordEncoder passwordEncoder;

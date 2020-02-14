@@ -26,6 +26,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
+        log.info("token 增强器运行:-------------------");
+
         Authentication userAuthentication = authentication.getUserAuthentication();
         String name = userAuthentication.getName();
         if(StrUtil.isNotBlank(name)){
