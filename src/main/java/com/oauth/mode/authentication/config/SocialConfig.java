@@ -1,7 +1,7 @@
 package com.oauth.mode.authentication.config;
 
 import com.oauth.mode.properties.SecurityProperties;
-import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
+import com.oauth.mode.authentication.social.SocialAuthenticationFilterPostProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
