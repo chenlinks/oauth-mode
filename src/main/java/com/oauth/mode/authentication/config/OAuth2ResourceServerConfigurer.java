@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -32,17 +31,6 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
 
 
     /**
-     * 添加特定于资源服务器的属性（例如资源ID）。默认值适用于许多应用程序，但是您可能至少要更改资源ID。
-     * @param resources
-     * @throws Exception
-     */
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        super.configure(resources);
-    }
-
-
-    /**
      * 使用此配置安全资源的访问规则。默认情况下，“ / oauth / **” 中的所有资源不受保护
      * @param http
      * @throws Exception
@@ -56,10 +44,10 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
 
 
         http
-                .formLogin()
-                .and()
+//                .formLogin()
+//                .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**","/auth/**","/login")
+                .antMatchers("/oauth/**","/auth/**","/user/login")
                 .permitAll();
 
         http.authorizeRequests().anyRequest().authenticated();

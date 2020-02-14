@@ -3,6 +3,7 @@ package com.oauth.mode.authentication.entity;
 import com.google.common.collect.Maps;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -11,7 +12,10 @@ import java.util.Map;
  * @since V1.0.0
  */
 @Data
-public class AbstractMyAuthenticationDetails {
+public class AbstractMyAuthenticationDetails  implements Serializable {
+
+
+    private static final long serialVersionUID = 4093674380283386791L;
     /**
      * 额外信息
      */

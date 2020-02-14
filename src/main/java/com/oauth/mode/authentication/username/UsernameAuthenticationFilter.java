@@ -27,7 +27,7 @@ public class UsernameAuthenticationFilter extends AbstractAuthenticationProcessi
                                         UsernameAuthenticationDetailsSource authenticationDetailsSource,
                                         AuthenticationSuccessHandler successHandler,
                                         AuthenticationFailureHandler failureHandler) {
-        super(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
+        super(new AntPathRequestMatcher("/user/login", HttpMethod.POST.name()));
         setAuthenticationManager(authenticationManager);
         setAuthenticationDetailsSource(authenticationDetailsSource);
         setAuthenticationSuccessHandler(successHandler);

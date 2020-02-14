@@ -2,14 +2,10 @@ package com.oauth.mode.authentication.username;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
 
 /**
  * @author chenling
@@ -25,15 +21,24 @@ public class UsernameAuthenticationDetailsSourceImpl   implements  UsernameAuthe
 
     @Override
     public UsernameAuthenticationDetails buildDetails(HttpServletRequest context) {
-        log.info("-------------------获取用户参数---------{}----------", ToStringBuilder.reflectionToString(context.getParameterMap(), ToStringStyle.JSON_STYLE));
-        UsernameAuthenticationDetails authenticationDetails = null;
-        BufferedReader reader = null;
-        try {
-            reader = context.getReader();
-            authenticationDetails = objectMapper.convertValue(reader, UsernameAuthenticationDetails.class);
-        } catch (IOException e) {
-            log.error("获取请求参数时异常:",e);
-        }
+        log.info("-------------------获取用户参数-------------------");
+        //, ToStringBuilder.reflectionToString(context.getParameterMap(), ToStringStyle.JSON_STYLE)
+        UsernameAuthenticationDetails authenticationDetails = new UsernameAuthenticationDetails();
+
+        String tenantId = context.getParameter("tenantId");
+        String username = context.getParameter("username");
+        String password = context.getParameter("password");
+        String appId = context.getParameter("appId");
+        String accountTypeId = context.getParameter("accountTypeId");
+        String extraData = context.getParameter("extraData");
+        authenticationDetails.setTenantId(tenantId);
+        authenticationDetails.setAppId(appId);
+        authenticationDetails.setAccountTypeId(accountTypeId);
+        authenticationDetails.setUsername(username);
+        authenticationDetails.setPassword(password);
+
+        log.info("user-info -source {}",authenticationDetails);
+
         return authenticationDetails;
     }
 }
