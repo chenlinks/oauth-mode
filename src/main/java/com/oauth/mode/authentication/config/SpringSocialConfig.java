@@ -101,8 +101,8 @@ public class SpringSocialConfig extends SpringSocialConfigurer {
         }
 
 //        filter.setAuthenticationDetailsSource(authenticationDetailsSource);
-        filter.setAuthenticationSuccessHandler(successHandler);
-        filter.setAuthenticationFailureHandler(failureHandler);
+//        filter.setAuthenticationSuccessHandler(successHandler);
+//        filter.setAuthenticationFailureHandler(failureHandler);
 
         http.authenticationProvider(provider)
                 .addFilterBefore(postProcess(filter), AbstractPreAuthenticatedProcessingFilter.class);
