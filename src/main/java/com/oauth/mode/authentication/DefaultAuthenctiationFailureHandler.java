@@ -1,6 +1,7 @@
 package com.oauth.mode.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.Map;
  *
  */
 @Component("simpleAuthenctiationFailureHandler")
+@Slf4j
 public class DefaultAuthenctiationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -45,6 +47,7 @@ public class DefaultAuthenctiationFailureHandler extends SimpleUrlAuthentication
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("code",exception.getMessage());
 		returnMap.put("msg",exception.toString());
+		log.error("认证异常：",exception);
 		response.getWriter().write(objectMapper.writeValueAsString(returnMap));
 	}
 }

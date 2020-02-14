@@ -1,14 +1,17 @@
 package com.oauth.mode.authentication.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.oauth.mode.security.filter.SocialAuthenticationFilterPostProcessor;
+import com.oauth.mode.authentication.social.SocialAuthenticationProvider;
+import com.oauth.mode.authentication.social.SocialAuthenticationFilterPostProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialAuthenticationFilter;
@@ -46,10 +49,10 @@ public class SpringSocialConfig extends SpringSocialConfigurer {
 
     @Autowired
     private AuthenticationSuccessHandler successHandler;
-//    @Autowired
-//    private AuthenticationFailureHandler failureHandler;
-//    @Autowired
-//    private SocialAuthenticationProvider provider;
+    @Autowired
+    private AuthenticationFailureHandler failureHandler;
+    @Autowired
+    private SocialAuthenticationProvider provider;
     @Autowired
     private UsersConnectionRepository usersConnectionRepository;
 
@@ -99,9 +102,9 @@ public class SpringSocialConfig extends SpringSocialConfigurer {
 
 //        filter.setAuthenticationDetailsSource(authenticationDetailsSource);
         filter.setAuthenticationSuccessHandler(successHandler);
-//        filter.setAuthenticationFailureHandler(failureHandler);
+        filter.setAuthenticationFailureHandler(failureHandler);
 
-//        http.authenticationProvider(provider)
-//                .addFilterBefore(postProcess(filter), AbstractPreAuthenticatedProcessingFilter.class);
+        http.authenticationProvider(provider)
+                .addFilterBefore(postProcess(filter), AbstractPreAuthenticatedProcessingFilter.class);
     }
 }

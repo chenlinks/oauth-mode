@@ -38,9 +38,10 @@ public class OAuth2ResourceServerConfigurer extends ResourceServerConfigurerAdap
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
+                .apply(springSocialConfigurer)
+                .and()
                 .apply(usernameSecurityConfigurer)
                 .and().csrf().disable();
-        //                .apply(springSocialConfigurer);
 
 
         http
