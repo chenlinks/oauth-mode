@@ -1,8 +1,8 @@
 package com.oauth.mode.authentication.social.wechat.config;
 
+import com.oauth.mode.authentication.social.wechat.factory.WechatConnectionFactory;
 import com.oauth.mode.properties.SecurityProperties;
 import com.oauth.mode.properties.WeChatProperties;
-import com.oauth.mode.authentication.social.wechat.factory.WechatConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
