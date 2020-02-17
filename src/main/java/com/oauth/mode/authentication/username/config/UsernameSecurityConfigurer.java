@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /**
+ *
+ * 将自定义的登录操作加入过滤器链
  * @author chenling
  * @date 2020/2/13 16:30
  * @since V1.0.0
